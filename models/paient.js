@@ -6,21 +6,21 @@ const connection = mysql.createConnection({
     password: 'root'
 });
 
-module.exports = class Hasta{
+module.exports = class Patient{
 
-    constructor(hastaId,ad,soyad,dogumTarihi,cinsiyet,telefon,adres){
-        this.hastaId = hastaId;
-        this.ad = ad;
-        this.soyad = soyad;
-        this.dogumTarihi = dogumTarihi;
-        this.cinsiyet = cinsiyet;
-        this.telefon = telefon;
-        this.adres = adres;
+    constructor(patientId,name,surname,birthday,gender,phone,address){
+        this.patientId = patientId;
+        this.name = name;
+        this.surname = surname;
+        this.birthday = birthday;
+        this.gender = gender;
+        this.phone = phone;
+        this.address = address;
     }
 
 
 
-    static hastaListele() {
+    static ListPatient() {
         return new Promise((resolve, reject) => {
             connection.execute('SELECT * FROM hastalar', (err, rows) => {
                 if (err) {
@@ -32,7 +32,7 @@ module.exports = class Hasta{
         });
     }
 
-    async hastaKaydet(){
+    async SavePatient(){
         return new Promise((resolve, reject) => {
             connection.execute('INSERT INTO hastalar(hasta_ad,hasta_soyad,dogum_tarihi,cinsiyet,telefon,adres) VALUES (?, ?, ?, ?, ?, ?)',[this.ad, this.soyad, this.dogumTarihi,this.cinsiyet,this.telefon,this.adres] , (err, rows) => {
                 if (err) {
@@ -44,7 +44,7 @@ module.exports = class Hasta{
         });
     }
 
-    static async hastaSil(id) {
+    static async DeletePatient(id) {
         try {
             await connection.execute('DELETE FROM lab_sonuclari WHERE rapor_id IN (SELECT rapor_id FROM tibbi_raporlar WHERE hasta_id = ?)', [id]);
             await connection.execute('DELETE FROM tibbi_raporlar WHERE hasta_id = ?', [id]);
@@ -57,10 +57,10 @@ module.exports = class Hasta{
         }
     }
 
-    async hastaGuncelle(hasta){
+    async UpdatePatient(patient){
         return new Promise((resolve, reject) => {
             connection.execute('UPDATE hastalar SET hasta_ad = ?, hasta_soyad = ?, dogum_tarihi = ?, cinsiyet = ?, telefon = ?,adres = ? WHERE hasta_id = ?',
-                [hasta.ad,hasta.soyad,hasta.dogumTarihi,hasta.cinsiyet,hasta.telefon,hasta.adres,hasta.hastaId],
+                [patient.name,patient.surname,patient.birthday,patient.gender,patient.phone,patient.address,patient.patientId],
                 (err, rows) => {
                     if (err) {
                         reject(err);
@@ -74,7 +74,7 @@ module.exports = class Hasta{
 
 
 
-    static async hastaLogin(usarname,password){
+    static async LoginPatient(usarname,password){
         return new Promise((resolve, reject) => {
 
             connection.execute('SELECT * FROM hastalar WHERE hasta_ad = ? AND hasta_id = ? ',[usarname,password],

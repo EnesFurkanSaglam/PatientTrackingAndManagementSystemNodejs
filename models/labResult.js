@@ -6,12 +6,12 @@ const connection = mysql.createConnection({
     password: 'root'
 });
 
-module.exports = class Yonetici{
+module.exports = class LabResult{
 
-    constructor(ad,soyad){
-
-        this.ad = ad;
-        this.soyad = soyad;
+    constructor(reportId,url){
+        
+        this.reportId = reportId;
+        this.url = url;
 
     }
 

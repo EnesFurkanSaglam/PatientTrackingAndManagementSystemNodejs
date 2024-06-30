@@ -6,12 +6,12 @@ const connection = mysql.createConnection({
     password: 'root'
 });
 
-module.exports = class LabSonuc{
+module.exports = class Admin{
 
-    constructor(raporId,url){
-        
-        this.raporId = raporId;
-        this.url = url;
+    constructor(name,surname){
+
+        this.name = name;
+        this.surname = surname;
 
     }
 

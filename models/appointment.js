@@ -6,20 +6,20 @@ const connection = mysql.createConnection({
     password: 'root'
 });
 
-module.exports = class Randevu{
+module.exports = class Appointment{
 
-    constructor(hastaId,doktorId,randevuTarihi,randevuSaati){
+    constructor(patientId,doctorId,appointmentDate,appointmentTime){
         
-        hastaId = this.hastaId;
-        doktorId = this.doktorId;
-        randevuTarihi = this.randevuTarihi;
-        randevuSaati = this.randevuSaati;
+        patientId = this.patientId;
+        doctorId = this.doctorId;
+        appointmentDate = this.appointmentDate;
+        appointmentTime = this.appointmentTime;
 
         
 
     }
 
-    static randevuListele() {
+    static ListAppointment() {
         return new Promise((resolve, reject) => {
             connection.execute(`
                 SELECT 
@@ -43,7 +43,7 @@ module.exports = class Randevu{
     }
     
 
-    static async doktorRandevuListele(doktorId){
+    static async ListDoctorAppointment(doctorId){
         return new Promise((resolve, reject) => {
             connection.execute(`
                 SELECT  
@@ -68,7 +68,7 @@ module.exports = class Randevu{
     }
 
 
-    static async hastaRandevuListele(hastaId){
+    static async ListPatientAppointment(patientId){
         return new Promise((resolve, reject) => {
             connection.execute(`
                 SELECT  
@@ -83,7 +83,7 @@ module.exports = class Randevu{
                     LEFT JOIN tibbi_raporlar t ON t.hasta_id = h.hasta_id
                 WHERE 
                     h.hasta_id = ?
-            `,[hastaId], (err, rows) => {
+            `,[patientId], (err, rows) => {
                 if (err) {
                     reject(err);
                 } else {
